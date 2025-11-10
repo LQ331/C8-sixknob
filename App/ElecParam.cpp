@@ -1,5 +1,5 @@
 #include "ElecParam.h"
-
+#include "LClassLib.h"
 
 ElecParam::ElecParam()
 	: m_u32CUF(0)

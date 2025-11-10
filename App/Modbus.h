@@ -23,6 +23,12 @@
 class Modbus:public Protocol
 {
 public:
+		enum FRAME_INDEX
+	{
+		INDEX_ADDRESS=0,
+		INDEX_FUNCCODE,
+		INDEX_DATAAREA_START
+	};
 		enum ADDR_TYPE
 	{
 		ADDR_ERROR=0,//错误地址

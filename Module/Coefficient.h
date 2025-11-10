@@ -41,6 +41,7 @@ extern const uint32_t g_sz2_u32IR2[FRAME_SIZE][KNOBSTATUSSIZE];
 extern const float g_sz2_u32IR2_T[FRAME_SIZE][KNOBSTATUSSIZE];
 extern const uint32_t g_sz2_u32IR3[FRAME_SIZE][KNOBSTATUSSIZE];
 extern const float g_sz2_u32IR0[FRAME_SIZE][KNOBSTATUSSIZE];
+extern const uint16_t g_sz[FRAME_SIZE];
 
 class Coefficient
 {
@@ -52,7 +53,7 @@ public:
 	virtual ~Coefficient();
 	void Default(FRAME_CURRENT emFrameCurrent);
 	void Init();
-	bool Write(Flash & flash,uint32_t u32DataAdd);
-	bool Read(Flash & flash,uint32_t u32DataAdd);
+	bool write(Flash & flash,uint32_t u32DataAdd);
+	bool read(Flash & flash,uint32_t u32DataAdd);
 };
 #endif

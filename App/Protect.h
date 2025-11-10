@@ -32,11 +32,24 @@ public:
 };
 
 
+class ParamRun
+{
+public:
+	uint32_t m_u32Counter;
+public:
+	ParamRun()
+		: m_u32Counter(0)
+	{
+	};
+};
+
+
 class ParamRunGroup
 {
 public:
 	ParamRun m_sz_pr[PROTECT_TYPE_SIZE];
 };
+
 
 class ParamSaveGroup
 {

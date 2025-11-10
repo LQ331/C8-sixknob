@@ -25,7 +25,7 @@
 #include "communication.h"
 #include "Protocol.h"
 
-#define VERSION 7014
+#define VERSION 0001
 
 
 

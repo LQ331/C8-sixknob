@@ -49,10 +49,10 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>C8-sixknob</OutputName>
+          <OutputName>C8-sixknob-250</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -683,16 +683,6 @@
               <FilePath>.\Module\Communication.cpp</FilePath>
             </File>
             <File>
-              <FileName>Eeprom.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\Module\Eeprom.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>I2C.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\Module\I2C.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Led.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\Module\Led.cpp</FilePath>
@@ -712,6 +702,16 @@
               <FileType>8</FileType>
               <FilePath>.\Module\Flash.cpp</FilePath>
             </File>
+            <File>
+              <FileName>keyboard.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Module\keyboard.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Knob.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Module\Knob.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -726,11 +726,6 @@
               <FileName>AutoComm.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\App\AutoComm.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CommonInterface.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\App\CommonInterface.cpp</FilePath>
             </File>
             <File>
               <FileName>Device.cpp</FileName>
@@ -748,11 +743,6 @@
               <FilePath>.\App\Modbus.cpp</FilePath>
             </File>
             <File>
-              <FileName>Operate.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\App\Operate.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Protect.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\App\Protect.cpp</FilePath>
@@ -761,11 +751,6 @@
               <FileName>Protocol.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\App\Protocol.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Record.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\App\Record.cpp</FilePath>
             </File>
           </Files>
         </Group>

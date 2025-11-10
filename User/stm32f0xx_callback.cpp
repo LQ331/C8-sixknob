@@ -71,7 +71,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			g_protect.ProcessIR1(10);
 			g_protect.ProcessIR3();
 			g_protect.ProcessIR2(10);			
-			g_protect.ProcessIR0();
+			g_protect.ProcessIR0(10);
 			g_protect.ShuntTrip(10);
 		}
 	}

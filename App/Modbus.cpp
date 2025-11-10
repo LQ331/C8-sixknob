@@ -123,7 +123,7 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 		case 0x4000:
 		break;
 		case 0x4001:
-			*p_u16Data=g_action.GetLastOpenReason();
+			*p_u16Data=0;
 		break;
 		case 0x4002:
 		break;
@@ -183,10 +183,10 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 				*p_u16Data=0x0000|(g_device.GetParam().m_u8Addr);
 		break;
 		case 0x0011:
-			*p_u16Data=g_action.GetLastOpenReason();
+			*p_u16Data=0;
 		break;
 		case 0x0013:
-			*p_u16Data=g_action.GetWarn();
+			*p_u16Data=0;
 		break;
 		case 0x0014:
 		case 0x0012:
@@ -252,7 +252,7 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 				*p_u16Data=0x0000|(g_device.GetParam().m_u8Addr);
 		break;
 		case 0x0111:
-			*p_u16Data=g_action.GetLastOpenReason();
+			*p_u16Data=0;
 		break;
 		case 0x0114:
 			*p_u16Data=0;
@@ -299,7 +299,7 @@ bool Modbus::WriteReg(uint16_t u16RegAddr,uint16_t u16Data)
 		case 0x5000:
 		{
 			if(u16Data==0x0000)
-				g_action.Open(Action::OPEN_HARDCTRLOPEN);
+				g_action.Open();
 			else
 				bSuccess=false;
 		}
@@ -343,7 +343,7 @@ bool Modbus::WriteReg(uint16_t u16RegAddr,uint16_t u16Data)
 		case 0x0115:
 			{
 			if(u16Data==0xAAAA)
-				g_action.Open(Action::OPEN_HARDCTRLOPEN);
+				g_action.Open();
 			else
 				bSuccess=false;
 		}
