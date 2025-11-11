@@ -198,7 +198,7 @@ void AdcInit()
 	handle.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
 	handle.Init.DMAContinuousRequests = ENABLE;
 	handle.Init.Overrun = ADC_OVR_DATA_PRESERVED;
-	uint32_t sz_u32ChannelIndex[CHANNEL_NUM]={ADC_CHANNEL_0,ADC_CHANNEL_1,ADC_CHANNEL_2};
+	uint32_t sz_u32ChannelIndex[CHANNEL_NUM]={ADC_CHANNEL_0,ADC_CHANNEL_1,ADC_CHANNEL_2,ADC_CHANNEL_3};
 	uint32_t sz_u32ChannelSamplingTime[CHANNEL_NUM];
 	LGpio sz_gpio[CHANNEL_NUM];
 	for(uint32_t & u32ChannelSamplingTime : sz_u32ChannelSamplingTime)
@@ -243,26 +243,26 @@ void IwdgInit()
 
 void ActionInit()
 {
-	LGpio gpioTrip,gpioReset,gpioBuzzer,gpioAlarmOutput;
+	LGpio gpioTrip,gpioReset,gpioBuzzer,gpioAlarm;
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 	GPIO_InitStruct.Pin = GPIO_PIN_15;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	gpioReset=LGpio(GPIOC,GPIO_InitStruct);	
 	GPIO_InitStruct.Pin = GPIO_PIN_14;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	gpioBuzzer=LGpio(GPIOC,GPIO_InitStruct);	
 	GPIO_InitStruct.Pin = GPIO_PIN_13;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	gpioAlarmOutput=LGpio(GPIOC,GPIO_InitStruct);	
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	gpioAlarm=LGpio(GPIOC,GPIO_InitStruct);	
 	GPIO_InitStruct.Pin = GPIO_PIN_4;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	gpioTrip=LGpio(GPIOA,GPIO_InitStruct);
-	g_action=Action(gpioTrip);
+	g_action=Action(gpioTrip,gpioReset,gpioBuzzer,gpioAlarm);
 }
 
 void UsartInit()

@@ -6,5 +6,7 @@
 #define EE_Version								(0x0800F000)
 #define EE_FrameCurrent							(EE_Version+sizeof(uint32_t))
 #define EE_DeviceParam							(EE_FrameCurrent+sizeof(uint16_t))
-#define EE_CoefStart                (EE_DeviceParam+sizeof(DeviceParam))
+#define EE_OpenReason    						(EE_DeviceParam+sizeof(DeviceParam))
+#define EE_CoefStart                (EE_OpenReason+sizeof(uint32_t))
+            
 #endif

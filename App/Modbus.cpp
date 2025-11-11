@@ -183,7 +183,8 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 				*p_u16Data=0x0000|(g_device.GetParam().m_u8Addr);
 		break;
 		case 0x0011:
-			*p_u16Data=0;
+			//*p_u16Data=g_flash.read(EE_OpenReason,(uint16_t *)&m_u32OpenReason,sizeof(m_u32OpenReason)/2);
+		*p_u16Data=g_action.GetOpenReason();
 		break;
 		case 0x0013:
 			*p_u16Data=0;
@@ -257,6 +258,23 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 		case 0x0114:
 			*p_u16Data=0;
 		break;
+		case 0x0200:
+		case 0x0201:
+		case 0x0202:
+		case 0x0203:
+		case 0x0204:
+		case 0x0205:
+		case 0x0206:
+		case 0x0207:
+		case 0x0208:
+		case 0x0209:
+		case 0x020a:
+		case 0x020b:
+		case 0x020c:
+		case 0x020d:
+		case 0x020e:
+			*p_u16Data=g_coef.m_sz2_u16PointHiIRMS[0][u16RegAddr-0x0200];
+		break;
 		default:bSuccess=false;break;
 	}
 	return bSuccess;
@@ -299,7 +317,7 @@ bool Modbus::WriteReg(uint16_t u16RegAddr,uint16_t u16Data)
 		case 0x5000:
 		{
 			if(u16Data==0x0000)
-				g_action.Open();
+				g_action.Open(Action::OPEN_COMM);
 			else
 				bSuccess=false;
 		}
@@ -343,7 +361,7 @@ bool Modbus::WriteReg(uint16_t u16RegAddr,uint16_t u16Data)
 		case 0x0115:
 			{
 			if(u16Data==0xAAAA)
-				g_action.Open();
+				g_action.Open(Action::OPEN_COMM);
 			else
 				bSuccess=false;
 		}

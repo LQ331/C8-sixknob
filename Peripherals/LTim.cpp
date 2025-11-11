@@ -1,6 +1,6 @@
 #include "LTim.h"
 
-const uint32_t u32TimFreq=32000000;
+const uint32_t u32TimFreq=48000000;
 
 LTim::LTim()
 {

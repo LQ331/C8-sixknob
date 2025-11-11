@@ -61,15 +61,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		g_timer20ms.Increase();
 		g_timer100ms.Increase();
 		g_timer200ms.Increase();
-//		g_keyboard.Scan();
 		g_sample.CalcReal(g_coef);
 		g_elecparam.GetParam();
 		g_protect.ParamSet();
 		g_action.TripReset(10);
 		if(g_protect.IsEnableScan())
 		{
-			g_protect.ProcessIR1(10);
 			g_protect.ProcessIR3();
+			g_protect.ProcessIR1(10);
+			g_protect.Warn(10);
 			g_protect.ProcessIR2(10);			
 			g_protect.ProcessIR0(10);
 			g_protect.ShuntTrip(10);

@@ -7,10 +7,15 @@ Action::Action()
 }
 
 
-Action::Action(const LGpio & gpioTrip)
+Action::Action(const LGpio & gpioTrip,const LGpio & gpioReset,const LGpio & gpioBuzzer,const LGpio & gpioAlarm)
 	: m_gpioTrip(gpioTrip)
 	, m_u32Warn(WARN_NONE)
+	, m_u32OpenReason(OPEN_NONE)
+	, m_gpioReset(gpioReset)
+	, m_gpioBuzzer(gpioBuzzer)
+	, m_gpioAlarm(gpioAlarm)
 	,	m_bIsActing(false)
+	, m_u32WarnCounter(0)
 {
 }
 
@@ -20,13 +25,15 @@ Action::~Action()
 }
 
 
-void Action::Open()
+void Action::Open(OPEN_REASON emReason)
 {
 	if(!m_bIsActing)
 	{
 		m_gpioTrip.Set();
 		m_u32ActingCounter=0;
 		m_bIsActing=true;
+		m_u32OpenReason=emReason;
+		g_flash.write(EE_OpenReason,(uint16_t *)&m_u32OpenReason,sizeof(m_u32OpenReason)/2);
 	}
 }
 
@@ -58,4 +65,29 @@ void Action::Warn(bool bEnable)
 		g_ledAlarm.Off();
 }
 
-	
+
+void Action::WarnNoTrip(uint16_t u16Interval,bool bEnable)
+{
+	m_u32WarnCounter+=u16Interval;
+	if(u16Interval>=ACTION_FLAG_TIMROUT)
+		{
+			if(bEnable)
+			{
+				m_gpioAlarm.Set();
+				m_gpioBuzzer.Toggle();
+			}
+			else
+			{
+				m_gpioAlarm.Reset();
+				m_gpioBuzzer.Reset();
+			}
+		}
+}
+
+
+uint16_t Action::GetOpenReason()
+{
+	uint32_t OpenReason;
+	g_flash.read(EE_OpenReason,(uint16_t *)&OpenReason,sizeof(OpenReason)/2);
+	return OpenReason;
+}

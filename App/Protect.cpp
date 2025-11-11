@@ -57,8 +57,12 @@ void Protect::Warn(uint16_t u16Interval)
 		}
 		else
 				m_u16WarnCounter=0;
+		if((g_elecparam.m_limitImax.m_u32Value/RATIO_CUR)>=m_psg.m_sz_ps[PT_IR1].m_u32Threshold*1.5)	
+				bWarn=true;
 	g_action.Warn(bWarn);
 }
+
+#ifndef WARN
 void Protect::ProcessIR1(uint16_t u16Interval)
 {
 	if(g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Delay==0||g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold==0)
@@ -80,10 +84,36 @@ void Protect::ProcessIR1(uint16_t u16Interval)
 	}
 	if(bAction)
 	{
-		g_action.Open();
+		g_action.Open(Action::OPEN_IR1);
 	}
 }
+#else
+void Protect::ProcessIR1(uint16_t u16Interval)
+{
+	if(g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Delay==0||g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold==0)
+		return;
+	bool bAction=true;
+	  m_u64CurSquareTotal=(uint64_t)4*m_psg.m_sz_ps[PT_IR1].m_u32Threshold*m_psg.m_sz_ps[PT_IR1].m_u32Threshold*m_psg.m_sz_ps[PT_IR1].m_u32Delay;	
 
+	for(int i=0;i<PHASE_SIZE;++i)
+	{
+		m_sz_u64CurSquareSingle[i]=(uint64_t)(g_elecparam.m_sz_u32I[i]/RATIO_CUR)*(g_elecparam.m_sz_u32I[i]/RATIO_CUR)*u16Interval;
+		if((g_elecparam.m_sz_u32I[i]/RATIO_CUR)>=m_psg.m_sz_ps[PT_IR1].m_u32Threshold*1.2&&m_sz_u64CurSquareCount[i]<m_u64CurSquareTotal)		
+		{
+			m_sz_u64CurSquareCount[i]+=m_sz_u64CurSquareSingle[i];
+		}
+		else if((g_elecparam.m_sz_u32I[i]/RATIO_CUR)<=m_psg.m_sz_ps[PT_IR1].m_u32Threshold*0.95&&m_sz_u64CurSquareCount[i]>m_u64CurSquareTotal*0.001)
+		{
+			m_sz_u64CurSquareCount[i]-=m_u64CurSquareTotal*0.001;
+			bAction=false;
+		}
+		if(m_sz_u64CurSquareCount[i]>=m_u64CurSquareTotal)
+			bAction=true;
+	}
+		g_action.WarnNoTrip(u16Interval,bAction);
+
+}
+#endif
 
 void Protect::ProcessIR2(uint16_t u16Interval)
 {
@@ -102,7 +132,7 @@ void Protect::ProcessIR2(uint16_t u16Interval)
 				m_sz_u64CurSquareCountIR2[i]+=(uint64_t)m_sz_u64CurSquareSingle[i];
 				m_prg.m_sz_pr[PT_IR2].m_u32Counter+=u16Interval;
 				if(m_sz_u64CurSquareCountIR2[i]>=(uint64_t)m_u64CurSquareTotalIR2-m_u64CurActionTotalIR2)		
-					g_action.Open();		
+					g_action.Open(Action::OPEN_IR2);		
 			}			
 			else
 			{			
@@ -116,7 +146,7 @@ void Protect::ProcessIR2(uint16_t u16Interval)
 		if(m_prg.m_sz_pr[PT_IR2].m_u32Counter<m_psg.m_sz_ps[PT_IR2].m_u32Delay-40)
 			m_prg.m_sz_pr[PT_IR2].m_u32Counter+=u16Interval;
 		else
-			g_action.Open();
+			g_action.Open(Action::OPEN_IR2);
 	}
 	else
 		m_prg.m_sz_pr[PT_IR2].m_u32Counter=0;		
@@ -129,7 +159,7 @@ void Protect::ProcessIR3()
 	if(g_protect.m_psg.m_sz_ps[PT_IR3].m_u32Threshold==0||g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold==0)
 		return;	
 	if((g_elecparam.m_limitImax.m_u32Value/RATIO_CUR)>=(m_psg.m_sz_ps[PT_IR1].m_u32Threshold*m_psg.m_sz_ps[PT_IR3].m_u32Threshold))
-		g_action.Open();
+		g_action.Open(Action::OPEN_IR3);
 }
 
 
@@ -140,7 +170,7 @@ void Protect::ShuntTrip(uint16_t u16Interval)
 		if(m_u16ShuntCounter<SHUNTTRIP_DELAY)
 			m_u16ShuntCounter+=u16Interval;
 		else
-			g_action.Open();
+			g_action.Open(Action::OPEN_TEST);
 		
 	}
 }
@@ -161,7 +191,7 @@ void Protect::ProcessIR0()
 	u32IResVectorTotal=g_elecparam.m_sz_u32I[PHASE_N]*g_elecparam.m_sz_u32I[PHASE_N]+g_elecparam.m_sz_u32I[PHASE_N]*m_psg.m_sz_ps[PT_IR0].m_u32Threshold+m_psg.m_sz_ps[PT_IR0].m_u32Threshold*m_psg.m_sz_ps[PT_IR0].m_u32Threshold;
 	if(m_u64IR0VectorTotal>u32IResVectorTotal)
 	{
-		g_action.Open();
+		g_action.Open(Action::OPEN_IR0);
 	}
 }
 #else
