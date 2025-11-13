@@ -46,6 +46,7 @@ void Device::EraseWriteParam()
 		uint16_t F = g_emFrameCurrent;
 		g_flash.write(EE_FrameCurrent,(uint16_t *)&F,sizeof(F)/2);
 		g_flash.write(EE_Version,(uint16_t *)&g_u32Version,sizeof(g_u32Version)/2);
+		g_flash.write(EE_OpenReason,(uint16_t *)&g_u32OpenReason,sizeof(g_u32OpenReason)/2);
 		g_device.WriteParam();
 		g_coef.write(g_flash,EE_CoefStart);
 		g_device.ParamBackup();

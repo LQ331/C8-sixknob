@@ -51,6 +51,7 @@ extern Communication g_commRS485;
 extern Modbus g_modbusRS485;
 extern LIwdg g_iwdg;
 extern uint32_t g_u32Version;
+extern uint32_t g_u32OpenReason;
 extern bool g_bInitFinish;
 
 

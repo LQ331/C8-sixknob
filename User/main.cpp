@@ -25,7 +25,7 @@ Modbus g_modbusRS485;
 Coefficient g_coef;
 LIwdg g_iwdg;
 uint32_t g_u32Version;
-uint32_t g_u32Version1=0;
+uint32_t g_u32OpenReason;
 
 void Error_Handler(void)
 {
@@ -347,7 +347,6 @@ void VariableInit()
 		g_device.EraseWriteParam();
 	}
 	  g_device.ParamBackup();
-	g_u32Version1=0;
 }
 
 

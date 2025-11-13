@@ -103,10 +103,7 @@ void Protect::ProcessIR1(uint16_t u16Interval)
 			m_sz_u64CurSquareCount[i]+=m_sz_u64CurSquareSingle[i];
 		}
 		else if((g_elecparam.m_sz_u32I[i]/RATIO_CUR)<=m_psg.m_sz_ps[PT_IR1].m_u32Threshold*0.95&&m_sz_u64CurSquareCount[i]>m_u64CurSquareTotal*0.001)
-		{
 			m_sz_u64CurSquareCount[i]-=m_u64CurSquareTotal*0.001;
-			bAction=false;
-		}
 		if(m_sz_u64CurSquareCount[i]>=m_u64CurSquareTotal)
 			bAction=true;
 	}

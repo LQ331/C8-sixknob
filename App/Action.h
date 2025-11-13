@@ -6,7 +6,7 @@
 
 #define ACTION_TRIP_TIMEOUT 30
 #define ACTION_FLAG_TIMROUT 3000
-
+#define ACTION_WARN_TIME    500
 
 class Action
 {
@@ -42,7 +42,6 @@ private:
 	uint32_t m_u32StatusCounter;
 	uint32_t m_u32LedRunCounter;
 	uint32_t m_u32Warn;
-	uint32_t m_u32OpenReason;
 	uint32_t m_u32WarnCounter;
 public:
 	Action();
