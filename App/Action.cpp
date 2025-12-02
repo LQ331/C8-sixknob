@@ -15,6 +15,8 @@ Action::Action(const LGpio & gpioTrip,const LGpio & gpioReset,const LGpio & gpio
 	, m_gpioAlarm(gpioAlarm)
 	, m_bIsActing(false)
 	, m_u32WarnCounter(ACTION_WARN_TIME)
+	, m_u32ActingCounter(0)
+	, m_u32IsActionCount(0)
 {
 	m_gpioAlarm.Reset();
 	m_gpioBuzzer.Reset();
@@ -32,6 +34,7 @@ void Action::Open(OPEN_REASON emReason)
 	{
 		m_gpioTrip.Set();
 		m_u32ActingCounter=0;
+		m_u32IsActionCount=0;
 		m_bIsActing=true;
 		g_u32OpenReason=emReason;
 		g_device.EraseWriteParam();

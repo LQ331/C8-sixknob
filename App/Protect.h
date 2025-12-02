@@ -71,7 +71,7 @@ public:
 	uint64_t m_sz_u64CurSquareSingle[PHASE_SIZE];
 	uint64_t m_sz_u64CurSquareCount[PHASE_SIZE];
 	uint64_t m_sz_u64CurSquareCountIR2[PHASE_SIZE];
-		bool IsFirstVaule;
+	bool IsFirstVaule;
 public:
 	Protect();
 	virtual ~Protect();
