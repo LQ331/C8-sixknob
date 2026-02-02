@@ -10,7 +10,7 @@
 #define COEF_POINTS (COEF_SECTIONS+1)
 #define RATIO_CUR 1000
 #define KNOBSTATUSSIZE 10
-
+#define KNOBSTATUSSIZE1 16
 enum FRAME_CURRENT
 {
 	FRAME_32=0,
@@ -35,7 +35,8 @@ extern const uint16_t g_sz2_u16RMS_HiI_ABC[FRAME_SIZE][COEF_POINTS];
 extern const uint32_t g_sz2_u32Real_HiI_ABC[FRAME_SIZE][COEF_POINTS];
 extern const uint16_t g_sz2_u16RMS_I_Res[FRAME_SIZE][COEF_POINTS];
 extern const uint32_t g_sz2_u32Real_I_Res[FRAME_SIZE][COEF_POINTS];
-extern const uint32_t g_sz2_u32IR1[FRAME_SIZE][KNOBSTATUSSIZE];
+extern const uint32_t g_sz2_u32IR1[FRAME_SIZE][KNOBSTATUSSIZE1];
+extern const uint32_t g_sz2_u32IR1_ten[FRAME_SIZE][KNOBSTATUSSIZE];
 extern const uint32_t g_sz2_u32IR1_T[FRAME_SIZE][KNOBSTATUSSIZE];	
 extern const uint32_t g_sz2_u32IR2[FRAME_SIZE][KNOBSTATUSSIZE];
 extern const float g_sz2_u32IR2_T[FRAME_SIZE][KNOBSTATUSSIZE];

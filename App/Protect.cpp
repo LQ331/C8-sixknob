@@ -24,7 +24,19 @@ Protect::~Protect()
 {
 }
 
-
+#ifdef ten
+void Protect:: ParamSet()
+{
+	
+	g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold=g_sz2_u32IR1_ten[g_emFrameCurrent][g_keyboard.sz_KnobNum[0].u8KnobStatus];
+	g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Delay=g_sz2_u32IR1_T[g_emFrameCurrent][g_keyboard.sz_KnobNum[1].u8KnobStatus]*1000;
+	g_protect.m_psg.m_sz_ps[PT_IR2].m_u32Threshold=g_sz2_u32IR2[g_emFrameCurrent][g_keyboard.sz_KnobNum[2].u8KnobStatus];
+	g_protect.m_psg.m_sz_ps[PT_IR2].m_u32Delay=g_sz2_u32IR2_T[g_emFrameCurrent][g_keyboard.sz_KnobNum[3].u8KnobStatus]*1000;
+	g_protect.m_psg.m_sz_ps[PT_IR3].m_u32Threshold=g_sz2_u32IR3[g_emFrameCurrent][g_keyboard.sz_KnobNum[4].u8KnobStatus];
+	g_protect.m_psg.m_sz_ps[PT_IR0].m_u32Threshold=g_sz2_u32IR0[g_emFrameCurrent][g_keyboard.sz_KnobNum[5].u8KnobStatus]*100;
+	IsFirstVaule=true;
+}
+#else
 void Protect:: ParamSet()
 {
 	
@@ -36,7 +48,7 @@ void Protect:: ParamSet()
 	g_protect.m_psg.m_sz_ps[PT_IR0].m_u32Threshold=g_sz2_u32IR0[g_emFrameCurrent][g_keyboard.sz_KnobNum[5].u8KnobStatus]*100;
 	IsFirstVaule=true;
 }
-
+#endif
 
 bool Protect::IsEnableScan()
 {

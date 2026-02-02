@@ -14,6 +14,7 @@ public:
 	Knob();
 	Knob(LGpio *p_KnobGpio);
 	void GetKnobStatus();
+	void GetKnobStatus1();
 };
 
 
