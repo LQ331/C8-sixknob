@@ -15,9 +15,9 @@ void Keyboard::Scan()
 {
 	for(int i=0;i<KNOBSIZE;++i)
 		{			
-			if(i==0)
-				sz_KnobNum[i].GetKnobStatus1();
-			else
+//			if(i==0)
+//				sz_KnobNum[i].GetKnobStatus1();
+//			else
 				sz_KnobNum[i].GetKnobStatus();
 		}		
 }

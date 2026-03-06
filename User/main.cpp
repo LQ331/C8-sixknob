@@ -342,7 +342,7 @@ void VariableInit()
 	else
 	{
 		g_u32Version=VERSION;
-		g_emFrameCurrent=FRAME_400;
+		g_emFrameCurrent=FRAME_800;
 		g_coef.Default(g_emFrameCurrent);
 		g_device.EraseWriteParam();
 	}
