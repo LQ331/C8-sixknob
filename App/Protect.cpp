@@ -104,7 +104,7 @@ void Protect::ProcessIR1(uint16_t u16Interval)
 {
 	if(g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Delay==0||g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold==0)
 		return;
-	bool bAction=true;
+	bool bAction=false;
 	  m_u64CurSquareTotal=(uint64_t)4*m_psg.m_sz_ps[PT_IR1].m_u32Threshold*m_psg.m_sz_ps[PT_IR1].m_u32Threshold*m_psg.m_sz_ps[PT_IR1].m_u32Delay;	
 
 	for(int i=0;i<PHASE_SIZE;++i)
@@ -186,7 +186,7 @@ void Protect::ShuntTrip(uint16_t u16Interval)
 
 
 #ifdef GroundProtect
-void Protect::ProcessIR0()
+void Protect::ProcessIR0(uint16_t u16Interval)
 {
 	uint32_t u32IResVectorTotal;
 	if(g_protect.m_psg.m_sz_ps[PT_IR0].m_u32Threshold==0||g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold==0)
