@@ -320,11 +320,11 @@ void FlashInit()
 void ShuntInit()
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	GPIO_InitStruct.Pin = GPIO_PIN_8;
+	GPIO_InitStruct.Pin = GPIO_PIN_15;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	g_ShuntTrip=LGpio(GPIOB,GPIO_InitStruct);
+	g_ShuntTrip=LGpio(GPIOC,GPIO_InitStruct);
 }
 
 void VariableInit()
@@ -342,7 +342,7 @@ void VariableInit()
 	else
 	{
 		g_u32Version=VERSION;
-		g_emFrameCurrent=FRAME_250;
+		g_emFrameCurrent=FRAME_630;
 		g_coef.Default(g_emFrameCurrent);
 		g_device.EraseWriteParam();
 	}
@@ -352,8 +352,8 @@ void VariableInit()
 
 int main()
 {
-  HAL_Init();
-  SystemClock_Config();
+	HAL_Init();
+	SystemClock_Config();
 	GpioInit();
 	LedInit();
 	DmaInit();
