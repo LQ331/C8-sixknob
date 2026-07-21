@@ -337,12 +337,12 @@ void VariableInit()
 		g_flash.read(EE_FrameCurrent,(uint16_t *)&F,sizeof(F)/2);
 		g_emFrameCurrent=(FRAME_CURRENT)F;
 		g_device.ReadParam();
-  	g_coef.read(g_flash,EE_CoefStart);
+		g_coef.read(g_flash,EE_CoefStart);
 	}
 	else
 	{
 		g_u32Version=VERSION;
-		g_emFrameCurrent=FRAME_630;
+		g_emFrameCurrent=FRAME_63;
 		g_coef.Default(g_emFrameCurrent);
 		g_device.EraseWriteParam();
 	}

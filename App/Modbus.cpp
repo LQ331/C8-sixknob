@@ -210,7 +210,7 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 		case 0x0101:
 		case 0x0102:
 		case 0x0103:
-			*p_u16Data=g_elecparam.m_sz_u32I[u16RegAddr-0x0000]/RATIO_CUR;
+			*p_u16Data=g_elecparam.m_sz_u32I[u16RegAddr-0x0100]/RATIO_CUR;
 		break;
 		case 0x0104:
 			*p_u16Data=0;
@@ -274,6 +274,57 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 		case 0x020d:
 		case 0x020e:
 			*p_u16Data=g_coef.m_sz2_u16PointHiIRMS[0][u16RegAddr-0x0200];
+		break;
+		case 0x0300:
+		case 0x0301:
+		case 0x0302:
+		case 0x0303:
+		case 0x0304:
+		case 0x0305:
+		case 0x0306:
+		case 0x0307:
+		case 0x0308:
+		case 0x0309:
+		case 0x030a:
+		case 0x030b:
+		case 0x030c:
+		case 0x030d:
+		case 0x030e:
+			*p_u16Data=g_coef.m_sz2_u16PointHiIRMS[1][u16RegAddr-0x0300];
+		break;
+		case 0x0400:
+		case 0x0401:
+		case 0x0402:
+		case 0x0403:
+		case 0x0404:
+		case 0x0405:
+		case 0x0406:
+		case 0x0407:
+		case 0x0408:
+		case 0x0409:
+		case 0x040a:
+		case 0x040b:
+		case 0x040c:
+		case 0x040d:
+		case 0x040e:
+			*p_u16Data=g_coef.m_sz2_u16PointHiIRMS[2][u16RegAddr-0x0400];
+		break;
+		case 0x0500:
+		case 0x0501:
+		case 0x0502:
+		case 0x0503:
+		case 0x0504:
+		case 0x0505:
+		case 0x0506:
+		case 0x0507:
+		case 0x0508:
+		case 0x0509:
+		case 0x050a:
+		case 0x050b:
+		case 0x050c:
+		case 0x050d:
+		case 0x050e:
+			*p_u16Data=g_coef.m_sz2_u16PointHiIRMS[3][u16RegAddr-0x0500];
 		break;
 		default:bSuccess=false;break;
 	}
