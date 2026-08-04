@@ -197,7 +197,8 @@ void Protect::ProcessIR0(uint16_t u16Interval)
 		m_u64IR0VectorTotal+=m_u64IR0VectorTotal;
 	}
 	m_u64IR0VectorTotal=m_u64IR0VectorTotal-g_elecparam.m_sz_u32I[PHASE_A]*g_elecparam.m_sz_u32I[PHASE_B]-g_elecparam.m_sz_u32I[PHASE_B]*g_elecparam.m_sz_u32I[PHASE_C]-g_elecparam.m_sz_u32I[PHASE_A]*g_elecparam.m_sz_u32I[PHASE_C];
-	u32IResVectorTotal=g_elecparam.m_sz_u32I[PHASE_N]*g_elecparam.m_sz_u32I[PHASE_N]+g_elecparam.m_sz_u32I[PHASE_N]*m_psg.m_sz_ps[PT_IR0].m_u32Threshold+m_psg.m_sz_ps[PT_IR0].m_u32Threshold*m_psg.m_sz_ps[PT_IR0].m_u32Threshold;
+	u32IResVectorTotal=g_elecparam.m_sz_u32I[PHASE_N]*g_elecparam.m_sz_u32I[PHASE_N]+g_elecparam.m_sz_u32I[PHASE_N]*m_psg.m_sz_ps[PT_IR0].m_u32Threshold*g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold/100+
+	(m_psg.m_sz_ps[PT_IR0].m_u32Threshold*g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold/100)*(g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold*m_psg.m_sz_ps[PT_IR0].m_u32Threshold/100);
 	if(m_u64IR0VectorTotal>u32IResVectorTotal)
 	{
 		g_action.Open(Action::OPEN_IR0);
