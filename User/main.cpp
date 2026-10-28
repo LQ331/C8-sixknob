@@ -303,7 +303,7 @@ void AutoCommInit()
 //		{
 //			g_autocommRS485.AddProtocol(&g_modbusRS485);
 //		}
-		break;
+//		break;
 		default:break;
 	}
 }
@@ -342,7 +342,7 @@ void VariableInit()
 	else
 	{
 		g_u32Version=VERSION;
-		g_emFrameCurrent=FRAME_125;
+		g_emFrameCurrent=FRAME_400;
 		g_coef.Default(g_emFrameCurrent);
 		g_device.EraseWriteParam();
 	}

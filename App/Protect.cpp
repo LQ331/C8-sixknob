@@ -4,12 +4,13 @@
 
 Protect::Protect()
 	: m_u64CurSquareTotal(0)
-	,	m_u64CurSquareTotalIR2(0)
+	, m_u64CurSquareTotalIR2(0)
 	, m_u64IR0VectorTotal(0)
 	, m_u64CurActionTotalIR2(0)
 	, m_u16ShuntCounter(0)
 	, m_u16WarnCounter(0)
 	, m_u16IR0Counter(0)
+	, m_u16Ground(0)
 	, IsFirstVaule(false)
 {
 	for(int i=0;i<PHASE_SIZE;++i)
@@ -158,8 +159,15 @@ void Protect::ProcessIR2(uint16_t u16Interval)
 			g_action.Open(Action::OPEN_IR2);
 	}
 	else
-		m_prg.m_sz_pr[PT_IR2].m_u32Counter=0;		
-
+	{
+		m_prg.m_sz_pr[PT_IR2].m_u32Counter=0;	
+		for(int i=0;i<PHASE_SIZE;++i)
+		{		
+			if(m_sz_u64CurSquareCountIR2[i]>m_u64CurSquareTotalIR2*0.001)
+				m_sz_u64CurSquareCountIR2[i]-=m_u64CurSquareTotal*0.001;
+		}
+	}
+		
 }
 
 
@@ -172,6 +180,7 @@ void Protect::ProcessIR3()
 }
 
 
+#ifndef WARN
 void Protect::ShuntTrip(uint16_t u16Interval)
 {
 	if(g_ShuntTrip.IsReset())
@@ -183,26 +192,60 @@ void Protect::ShuntTrip(uint16_t u16Interval)
 		
 	}
 }
+#else
+void Protect::ShuntTrip(uint16_t u16Interval)
+{
+
+}
+#endif
 
 
 #ifdef GroundProtect
 void Protect::ProcessIR0(uint16_t u16Interval)
 {
 	uint32_t u32IResVectorTotal;
+	uint64_t u64Ires;
+	ProcessIR0led(u16Interval);
 	if(g_protect.m_psg.m_sz_ps[PT_IR0].m_u32Threshold==0||g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold==0)
 		return;	
 	for(int i=0;i<PHASE_SIZE;++i)	
 	{
-		m_u64IR0VectorTotal=(uint64_t)(g_elecparam.m_sz_u32I[i]*g_elecparam.m_sz_u32I[i]);
-		m_u64IR0VectorTotal+=m_u64IR0VectorTotal;
+		m_u64IR0VectorTotal+=(uint64_t)(g_elecparam.m_sz_u32I[i]/RATIO_CUR*(uint64_t)g_elecparam.m_sz_u32I[i]/RATIO_CUR);
+//		test1[i]=(uint64_t)(g_elecparam.m_sz_u32I[i]/RATIO_CUR*(uint64_t)g_elecparam.m_sz_u32I[i]/RATIO_CUR);
 	}
-	m_u64IR0VectorTotal=m_u64IR0VectorTotal-g_elecparam.m_sz_u32I[PHASE_A]*g_elecparam.m_sz_u32I[PHASE_B]-g_elecparam.m_sz_u32I[PHASE_B]*g_elecparam.m_sz_u32I[PHASE_C]-g_elecparam.m_sz_u32I[PHASE_A]*g_elecparam.m_sz_u32I[PHASE_C];
-	u32IResVectorTotal=g_elecparam.m_sz_u32I[PHASE_N]*g_elecparam.m_sz_u32I[PHASE_N]+g_elecparam.m_sz_u32I[PHASE_N]*m_psg.m_sz_ps[PT_IR0].m_u32Threshold*g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold/100+
-	(m_psg.m_sz_ps[PT_IR0].m_u32Threshold*g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold/100)*(g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold*m_psg.m_sz_ps[PT_IR0].m_u32Threshold/100);
+	u64Ires=((uint64_t)g_elecparam.m_sz_u32I[PHASE_A]/RATIO_CUR*(uint64_t)g_elecparam.m_sz_u32I[PHASE_B]/RATIO_CUR+(uint64_t)g_elecparam.m_sz_u32I[PHASE_B]/RATIO_CUR*(uint64_t)g_elecparam.m_sz_u32I[PHASE_C]/RATIO_CUR+
+	(uint64_t)g_elecparam.m_sz_u32I[PHASE_A]/RATIO_CUR*(uint64_t)g_elecparam.m_sz_u32I[PHASE_C]/RATIO_CUR);
+	m_u64IR0VectorTotal=m_u64IR0VectorTotal>u64Ires?m_u64IR0VectorTotal-u64Ires:u64Ires-m_u64IR0VectorTotal;
+	u32IResVectorTotal=g_elecparam.m_sz_u32I[PHASE_N]*g_elecparam.m_sz_u32I[PHASE_N]+g_elecparam.m_sz_u32I[PHASE_N]*m_psg.m_sz_ps[PT_IR0].m_u32Threshold+m_psg.m_sz_ps[PT_IR0].m_u32Threshold*m_psg.m_sz_ps[PT_IR0].m_u32Threshold;
 	if(m_u64IR0VectorTotal>u32IResVectorTotal)
 	{
-		g_action.Open(Action::OPEN_IR0);
+		if(m_u16Ground<30)
+				m_u16Ground+=u16Interval;
+		else
+		{
+			g_action.Open(Action::OPEN_IR0);
+			m_u16Ground=0;
+		}
 	}
+	else
+		m_u16Ground=0;
+	m_u64IR0VectorTotal=0;
+}
+
+
+void Protect::ProcessIR0led(uint16_t u16Interval)
+{
+	if(g_protect.m_psg.m_sz_ps[PT_IR1].m_u32Threshold==0)
+		return;
+	if((g_elecparam.m_limitImax.m_u32Value/RATIO_CUR)>=(m_psg.m_sz_ps[PT_IR1].m_u32Threshold))
+	{
+		if(m_u16IR0Counter<=SHUNTTRIP_DELAY)
+				m_u16IR0Counter+=u16Interval;
+			else
+				g_ledEarly.On();
+	}
+	else
+		g_ledEarly.Off();
 }
 #else
 void Protect::ProcessIR0(uint16_t u16Interval)

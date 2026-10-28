@@ -64,6 +64,7 @@ public:
 	uint16_t m_u16ShuntCounter;
 	uint16_t m_u16WarnCounter;
 	uint16_t m_u16IR0Counter;
+	uint16_t m_u16Ground;
 	uint64_t m_u64IR0VectorTotal;
 	uint64_t m_u64CurSquareTotalIR2;
 	uint64_t m_u64CurActionTotalIR2;
@@ -71,6 +72,7 @@ public:
 	uint64_t m_sz_u64CurSquareSingle[PHASE_SIZE];
 	uint64_t m_sz_u64CurSquareCount[PHASE_SIZE];
 	uint64_t m_sz_u64CurSquareCountIR2[PHASE_SIZE];
+
 	bool IsFirstVaule;
 public:
 	Protect();
@@ -82,6 +84,7 @@ public:
 	void ProcessIR0(uint16_t u16Interval);
 	void Warn(uint16_t u16Interval);
 	void ShuntTrip(uint16_t u16Interval);
+	void ProcessIR0led(uint16_t u16Interval);
 	bool IsEnableScan();
 };
 

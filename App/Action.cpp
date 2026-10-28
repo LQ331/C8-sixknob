@@ -36,7 +36,6 @@ void Action::Open(OPEN_REASON emReason)
 		m_u32IsActionCount=0;
 		m_bIsActing=true;
 		g_u32OpenReason=emReason;
-		g_device.EraseWriteParam();
 		m_gpioTrip.Set();
 	}
 }

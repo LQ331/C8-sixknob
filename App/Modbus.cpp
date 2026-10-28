@@ -326,6 +326,12 @@ bool Modbus::ReadReg(uint16_t u16RegAddr,uint16_t * p_u16Data)
 		case 0x050e:
 			*p_u16Data=g_coef.m_sz2_u16PointHiIRMS[3][u16RegAddr-0x0500];
 		break;
+		case 0x0601:
+			*p_u16Data=2026;
+		break;
+		case 0x0602:
+			*p_u16Data=1024;
+		break;
 		default:bSuccess=false;break;
 	}
 	return bSuccess;
@@ -506,7 +512,7 @@ void Modbus::ReadInputReg()
 		const uint8_t u8RegNumStart=u8RegStartAddrStart+MODBUS_REGSTARTADDR_SIZE;
 		m_u16RegStartAddr=m_sz_u8Buff[u8RegStartAddrStart]*256+m_sz_u8Buff[u8RegStartAddrStart+1];
 		m_u16RegNum=m_sz_u8Buff[u8RegNumStart]*256+m_sz_u8Buff[u8RegNumStart+1];
-		if(m_u16RegStartAddr>=MODBUS_INPUT_REG_START&&m_u16RegStartAddr<=MODBUS_INPUT_REG_END&&m_u16RegStartAddr+m_u16RegNum>=MODBUS_INPUT_REG_START&&m_u16RegStartAddr+m_u16RegNum<=MODBUS_INPUT_REG_END)
+		if(m_u16RegStartAddr>=MODBUS_INPUT_REG_START&&m_u16RegStartAddr<=MODBUS_INPUT_REG_END&&m_u16RegStartAddr+m_u16RegNum-1>=MODBUS_INPUT_REG_START&&m_u16RegStartAddr+m_u16RegNum-1<=MODBUS_INPUT_REG_END)
 		{
 			if(m_u16RegNum>=0x0001&&m_u16RegNum<=0x007D)
 			{
